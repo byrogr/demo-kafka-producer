@@ -1,19 +1,18 @@
 package com.rmsolutions.kafka_producer.producer;
 
-import com.rmsolutions.kafka_producer.model.dto.PurchaseEvent;
+import com.rmsolutions.kafka_producer.model.dto.EventDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class InventoryEventsProducer {
+public class EventProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
@@ -21,10 +20,10 @@ public class InventoryEventsProducer {
     @Value("${spring.kafka.topic.name}")
     public String topicName;
 
-    public void sendInventoryEvent(PurchaseEvent purchaseEvent) {
+    public void sendInventoryEvent(EventDTO eventDTO) {
         try {
-            var key = purchaseEvent.getOrderId();
-            var value = objectMapper.writeValueAsString(purchaseEvent);
+            var key = eventDTO.getOrderId();
+            var value = objectMapper.writeValueAsString(eventDTO);
             ProducerRecord<String, String> record = new ProducerRecord<>(topicName, key, value);
             var completableSendStage = kafkaTemplate.send(record);
             completableSendStage.whenComplete((result, ex) ->

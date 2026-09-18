@@ -9,6 +9,10 @@ POC de un servicio Spring Boot que expone una API REST para publicar eventos en 
 - Lombok
 - Maven
 
+## Requisitos
+
+- Un broker de Kafka accesible en `localhost:9092` (configurado en `application.yml`).
+
 ## Cómo ejecutar
 
 ```bash
@@ -20,6 +24,13 @@ POC de un servicio Spring Boot que expone una API REST para publicar eventos en 
 ```bash
 ./mvnw test
 ```
+
+## Configuración de Kafka
+
+Definida en `src/main/resources/application.yml`:
+
+- **Topic:** `inventory-events` (se crea automáticamente al levantar la app: 3 particiones, 1 réplica).
+- **Producer:** `bootstrap-servers: localhost:9092`, con `StringSerializer` para key y value.
 
 ## Endpoints
 
@@ -38,3 +49,5 @@ Recibe un evento de compra.
 ```
 
 **Respuesta:** el mismo evento recibido.
+
+Adicionalmente, el evento se publica de forma asíncrona en el topic `inventory-events` usando el `orderId` como key del mensaje.

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
-public class AutoConfig {
+public class EventProducerConfig {
 
     @Value("${spring.kafka.topic.name}")
     public String topicName;

@@ -1,7 +1,7 @@
 package com.rmsolutions.kafka_producer.controller;
 
-import com.rmsolutions.kafka_producer.model.dto.PurchaseEvent;
-import com.rmsolutions.kafka_producer.producer.InventoryEventsProducer;
+import com.rmsolutions.kafka_producer.model.dto.EventDTO;
+import com.rmsolutions.kafka_producer.producer.EventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class InventoryEventsController {
+public class EventController {
 
-    private final InventoryEventsProducer inventoryEventsProducer;
+    private final EventProducer inventoryEventsProducer;
 
     @PostMapping("/event")
-    public ResponseEntity<PurchaseEvent> createPurchaseEvent(@RequestBody PurchaseEvent purchaseEvent) {
-        log.info("** Received purchase event: {} **", purchaseEvent);
+    public ResponseEntity<EventDTO> createPurchaseEvent(@RequestBody EventDTO eventDTO) {
+        log.info("** Received purchase event: {} **", eventDTO);
 
-        inventoryEventsProducer.sendInventoryEvent(purchaseEvent);
+        inventoryEventsProducer.sendInventoryEvent(eventDTO);
 
-        return ResponseEntity.ok(purchaseEvent);
+        return ResponseEntity.ok(eventDTO);
     }
 }

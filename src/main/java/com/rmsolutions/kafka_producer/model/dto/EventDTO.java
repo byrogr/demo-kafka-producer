@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchaseEvent {
+public class EventDTO {
     private String productId;
     private String orderId;
     private int quantity;
